@@ -16,7 +16,8 @@ class _PriceScreenState extends State<PriceScreen> {
 
   void retrieveCoinData() async {
     CoinModel coinModel = new CoinModel();
-    var coinData = await coinModel.getCoinData('BTC', 'USD');
+    var coinData =
+        await coinModel.getCoinData('BTC', selectedCurrency.toString());
     updateUI(coinData);
   }
 
@@ -53,6 +54,7 @@ class _PriceScreenState extends State<PriceScreen> {
       onChanged: (value) {
         setState(() {
           selectedCurrency = value;
+          retrieveCoinData();
         });
       },
     );
@@ -68,7 +70,8 @@ class _PriceScreenState extends State<PriceScreen> {
     return CupertinoPicker(
       itemExtent: 32.0,
       onSelectedItemChanged: (selectedIndex) {
-        print(selectedIndex);
+        selectedCurrency = pickerItems[selectedIndex].data;
+        retrieveCoinData();
       },
       children: pickerItems,
     );
